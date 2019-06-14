@@ -1,8 +1,5 @@
-//chamando o pacote express
 var express = require("express");
-//chamando o pacote body-parser
 var bodyParser = require("body-parser");
-//Cross origin
 var cors = require('cors');
 
 //rotas
@@ -14,7 +11,7 @@ var app = express();
 app.use(cors({
   exposedHeaders: ['new-authorization'],
 }));
-// Configuração da 'app' para usar o 'bodyParser()'. Ao fazer isso permitirá utilizar POST
+
 app.use(bodyParser.json());
 
 // Inicia a aplicação na porta indicada
@@ -23,7 +20,6 @@ var server = app.listen(process.env.SWAPI_PORT || 8080, function () {
   console.log("Aplicacao rodando na porta ", port);
 });
 
-/* Aqui o 'router' pega as instâncias das Rotas do Express */
 var router = express.Router();
 
 // Criação da API
