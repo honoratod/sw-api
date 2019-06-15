@@ -12,12 +12,39 @@ router.get('/', function (req, res) {
     if (nome)
         filtro = { "nome": nome };
 
-
     Planeta.find(filtro).exec(function (err, planetas) {
         if (err) {
             return res.status(500).json(err);
         }
-        res.status(200).json(planetas);
+        let planetaRetorno = [];
+        console.log('retornoLista=' + planetas.length);
+        //Array de promessas
+        var promiseArray = [];
+        //Executa o loop para obter os valores de quantidade de aparições para cada planeta
+        for (let i = 0; i < planetas.length; i++) {
+            promiseArray.push(retornaQtdFilmes(planetas[i].nome)
+                .then((qtdfilmes) => {
+                    //Adiciona a informação obtida
+                    let planetaInfo = planetas[i].toObject();
+                    planetaInfo["qtdfilmes"] = qtdfilmes;
+                    planetaRetorno.push(planetaInfo);
+                })
+                .catch(err => {
+                    console.log("Err:" + err)
+                    let planetaInfo = planetas[i].toObject();
+                    planetaInfo["qtdfilmes"] = err;
+                    planetaRetorno.push(planetaInfo);
+                })
+            )
+        }
+
+        //Aguarda a listagem de todas as quantidades de aparições (retorno de todas as promises)
+        Promise.all(promiseArray).then((title) => {
+            console.log("await");
+            res.status(200).json(planetaRetorno);
+        }).catch(err => {
+            res.status(200).json(planetaRetorno);
+        })
     });
 });
 
@@ -115,6 +142,7 @@ router.put('/:id', function (req, res) {
     })
 });
 
+/** Método para consultar em API externa a quantidade de aparições do planeta em filmes pelo nome */
 function retornaQtdFilmes(nome) {
     options = {
         url: 'https://swapi.co/api/planets/?format=json&search=' + nome,
