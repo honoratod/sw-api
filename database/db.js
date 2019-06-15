@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dbPath = "mongodb://localhost:27017/swapidb";
+const dbPath = process.env.SWAPI_DB || "mongodb://localhost:27017/swapidb";
 mongoose.set('useFindAndModify', false);
 
 mongoose.connect(dbPath, {

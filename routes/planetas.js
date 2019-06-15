@@ -56,7 +56,7 @@ router.get('/:id', function (req, res) {
     Planeta.findById(id).exec(function (err, planetas) {
         if (err) {
             if (err.name && err.name == "CastError")
-                return res.status(404).json({ message: 'parametros invalidos.' });
+                return res.status(404).json({ mensagem: 'parametros invalidos.' });
             else
                 return res.status(500).json(err);
         }
@@ -83,7 +83,7 @@ router.post('/', function (req, res) {
     let vClima = req.body.clima;
     let vTerreno = req.body.terreno;
     if (!vNome || !vClima || !vTerreno)
-        return res.status(400).json({ message: 'parametros invalidos.' });
+        return res.status(400).json({ mensagem: 'parametros invalidos.' });
 
     data = {
         nome: vNome,
@@ -110,8 +110,8 @@ router.delete('/:id', function (req, res) {
         if (err) {
             return res.status(500).json(err);
         } else if (!retorno)
-            res.status(400).json({ message: 'planeta não encontrado.' });
-        res.status(200).json(retorno);
+            res.status(400).json({ mensagem: 'planeta não encontrado.' });
+        res.status(200).json({ mensagem : 'planeta removido.' });
     });
 });
 
@@ -125,7 +125,7 @@ router.put('/:id', function (req, res) {
     let vClima = req.body.clima;
     let vTerreno = req.body.terreno;
     if (!id || !vNome || !vClima || !vTerreno)
-        return res.status(400).json({ message: 'parametros invalidos.' });
+        return res.status(400).json({ mensagem: 'parametros invalidos.' });
 
     data = {
         nome: vNome,
@@ -138,7 +138,7 @@ router.put('/:id', function (req, res) {
             return res.status(500).json(err);
         }
 
-        res.status(200).json(retorno);
+        res.status(200).json({ mensagem : 'planeta atualizado.' });
     })
 });
 
