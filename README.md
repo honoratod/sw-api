@@ -7,7 +7,7 @@ npm start (para iniciar)
 
 OBS: A aplicação requer o MongoDB mapeado na variável de ambiente SWAPI_DB. Caso ela não exista, a aplicação utiliza sua configuração padrão.
 
-<b>API Endponts</b>
+<b>API Endpoints</b>
 
 <ul>
   <li>Listagem de Planetas<br>
